@@ -28,7 +28,6 @@ int getlistlength(struct node *head){
 		count++;
 		curr = curr->next;
 	}
-	printf("List Length: %d", count);
 
 	return count;
 }
@@ -68,6 +67,12 @@ struct node* merge(struct node * head1, struct node * head2){
 }
 
 struct node* merge_sort(struct node* head, int size){
+
+	//base case to avoid infinite loop in recursive call
+	if(size <= 1){
+		return head;
+	}
+
 	int firsthalf = size / 2;
 	int secondhalf = size - firsthalf;
 
@@ -84,12 +89,7 @@ struct node* merge_sort(struct node* head, int size){
 	//separate the list in two
 	curr->next = NULL;
 
-	printf("\nfirst list: ");
-	printlist(head);
-	printf("\nsecond list: ");
-	printlist(secondstart);
-
-	return head;
+	return merge(merge_sort(head, firsthalf), merge_sort(secondstart, secondhalf));
 }
 
 int main(){
@@ -120,7 +120,7 @@ int main(){
 	printf("OG List: ");
 	printlist(head);
 	int size = getlistlength(head);
-	//printf("\nSize: %d\n", size);
+	printf("List Length: %d", size);
 
 	struct node * newlist = merge_sort(head, size);
 	printf("\nList After Mergesort: ");
