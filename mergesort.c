@@ -33,37 +33,86 @@ int getlistlength(struct node *head){
 	return count;
 }
 
+struct node* merge(struct node * head1, struct node * head2){
+	struct node *newhead = NULL;
+	struct node *tail = NULL;
+	
+	while(head1 != NULL && head2 != NULL){
+		struct node *curr;
+		if(head1->data <= head2->data){
+			curr = head1;
+			head1 = head1->next; //update head1's list
+		}else{
+			curr = head2;
+			head2 = head2->next; //update head2's list
+		}
+
+		//update newhead with current node to merge
+		if(newhead == NULL){
+			newhead = curr;
+			tail = curr;
+		}else{
+			tail->next = curr;
+			tail = curr;
+		}
+	}
+
+	//update newhead with remaining nodes
+	if(head1 != NULL){
+		tail->next = head1;
+	}else{
+		tail->next = head2;
+	}
+
+	return newhead;
+}
 
 
 int main(){
-	printf("Hello, World!\n");
-	struct node *head = malloc(sizeof(struct node));
-	struct node *second = malloc(sizeof(struct node));
-	struct node *third = malloc(sizeof(struct node));
-	struct node *fourth = malloc(sizeof(struct node));
-	struct node *five = malloc(sizeof(struct node));
 
-	head->data = 10;
-	second->data = 20;
-	third->data = 30;
-	fourth->data = 40;
-	five->data = 50;
-	
-	head->next = second;
-	second->next = third;
-	third->next = fourth;
-	fourth->next = five;
-	five->next = NULL;
+	struct node *head1 = malloc(sizeof(struct node));
+	struct node *second1 = malloc(sizeof(struct node));
+	struct node *third1 = malloc(sizeof(struct node));
 
-	printlist(head);
-	int size = getlistlength(head);
-	printf("\nSize: %d", size);
+	struct node *head2 = malloc(sizeof(struct node));
+	struct node *second2 = malloc(sizeof(struct node));
+	struct node *third2 = malloc(sizeof(struct node));
+
+	// initialize head1 list values
+	head1->data = 3;
+	second1->data = 5;
+	third1->data = 9;
 	
-	free(head);
-	free(second);
-	free(third);
-	free(fourth);
+	//link head1 list
+	head1->next = second1;
+	second1->next = third1;
+	third1->next = NULL;
+
+	// initialize head2 list values
+	head2->data = 1;
+	second2->data = 6;
+	third2->data = 7;
 	
+	//link head2 list
+	head2->next = second2;
+	second2->next = third2;
+	third2->next = NULL;
+
+	printlist(head1);
+	printlist(head2);
+	int size = getlistlength(head1);
+	printf("\nSize: %d\n", size);
+
+	struct node * newlist = merge(head1, head2);
+	printlist(newlist);
+	
+	free(head1);
+	free(second1);
+	free(third1);
+
+	free(head2);
+	free(second2);
+	free(third2);
 	
 	return 0;
 }
