@@ -20,9 +20,18 @@ void printlist(struct node *head){
 	printf("NULL\n");
 }
 
-/* int getlistlength(struct node *head){
+int getlistlength(struct node *head){
+	int count = 0;
 
-} */
+	struct node *curr = head;
+	while (curr != NULL){
+		count++;
+		curr = curr->next;
+	}
+	printf("List Length: %d", count);
+
+	return count;
+}
 
 
 
@@ -32,17 +41,23 @@ int main(){
 	struct node *second = malloc(sizeof(struct node));
 	struct node *third = malloc(sizeof(struct node));
 	struct node *fourth = malloc(sizeof(struct node));
+	struct node *five = malloc(sizeof(struct node));
 
 	head->data = 10;
 	second->data = 20;
 	third->data = 30;
 	fourth->data = 40;
+	five->data = 50;
 	
 	head->next = second;
 	second->next = third;
 	third->next = fourth;
-	fourth->next = NULL;
+	fourth->next = five;
+	five->next = NULL;
+
 	printlist(head);
+	int size = getlistlength(head);
+	printf("\nSize: %d", size);
 	
 	free(head);
 	free(second);
