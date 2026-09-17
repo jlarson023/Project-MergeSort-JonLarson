@@ -67,52 +67,71 @@ struct node* merge(struct node * head1, struct node * head2){
 	return newhead;
 }
 
+struct node* merge_sort(struct node* head, int size){
+	int firsthalf = size / 2;
+	int secondhalf = size - firsthalf;
+
+	struct node *curr = head;
+
+	//set curr to the end of the first half (to split the list in two)
+	for(int i = 1; i < firsthalf; i++){
+		curr = curr->next;
+	}
+
+	//start of the second half of the list
+	struct node *secondstart = curr->next;
+
+	//separate the list in two
+	curr->next = NULL;
+
+	printf("\nfirst list: ");
+	printlist(head);
+	printf("\nsecond list: ");
+	printlist(secondstart);
+
+	return head;
+}
 
 int main(){
 
-	struct node *head1 = malloc(sizeof(struct node));
-	struct node *second1 = malloc(sizeof(struct node));
-	struct node *third1 = malloc(sizeof(struct node));
+	struct node *head = malloc(sizeof(struct node));
+	struct node *second = malloc(sizeof(struct node));
+	struct node *third = malloc(sizeof(struct node));
+	struct node *fourth = malloc(sizeof(struct node));
+	struct node *fifth = malloc(sizeof(struct node));
+	struct node *sixth = malloc(sizeof(struct node));
 
-	struct node *head2 = malloc(sizeof(struct node));
-	struct node *second2 = malloc(sizeof(struct node));
-	struct node *third2 = malloc(sizeof(struct node));
-
-	// initialize head1 list values
-	head1->data = 3;
-	second1->data = 5;
-	third1->data = 9;
+	//initialize list values
+	head->data = 5;
+	second->data = 9;
+	third->data = 3;
+	fourth->data = 6;
+	fifth->data = 7;
+	sixth->data = 1;
 	
-	//link head1 list
-	head1->next = second1;
-	second1->next = third1;
-	third1->next = NULL;
+	//link the list
+	head->next = second;
+	second->next = third;
+	third->next = fourth;
+	fourth->next = fifth;
+	fifth->next = sixth;
+	sixth->next = NULL;
 
-	// initialize head2 list values
-	head2->data = 1;
-	second2->data = 6;
-	third2->data = 7;
-	
-	//link head2 list
-	head2->next = second2;
-	second2->next = third2;
-	third2->next = NULL;
+	printf("OG List: ");
+	printlist(head);
+	int size = getlistlength(head);
+	//printf("\nSize: %d\n", size);
 
-	printlist(head1);
-	printlist(head2);
-	int size = getlistlength(head1);
-	printf("\nSize: %d\n", size);
-
-	struct node * newlist = merge(head1, head2);
+	struct node * newlist = merge_sort(head, size);
+	printf("\nList After Mergesort: ");
 	printlist(newlist);
 	
-	free(head1);
-	free(second1);
-	free(third1);
-
-	free(head2);
-	free(second2);
-	free(third2);
+	free(head);
+	free(second);
+	free(third);
+	free(fourth);
+	free(fifth);
+	free(sixth);
 	
 	return 0;
 }
